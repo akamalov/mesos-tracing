@@ -22,27 +22,27 @@ var development = process.env.NODE_ENV === 'development';
 gulp.task('browsersync', function () {
   browserSync.init({
     open: false,
-    port: 4200,
+    port: 4201,
     server: {
       baseDir: config.dirs.dist
     },
     socket: {
-      domain: 'localhost:4200'
+      domain: 'localhost:4201'
     }
   });
 });
 
 gulp.task('server', function () {
-  var process;
+  var childProcess;
 
   function spawnChildren() {
     // kill previous spawned process
-    if (process) {
-      process.kill();
+    if (childProcess) {
+      childProcess.kill();
     }
 
     // `spawn` a child `gulp` process linked to the parent `stdio`
-    process = spawn('./bin/www', [], {
+    childProcess = spawn('./bin/www', [], {
       stdio: 'inherit',
       env: {
         DEBUG: 'debug,server,error',
@@ -51,12 +51,17 @@ gulp.task('server', function () {
     });
   }
 
+  // We need to kill the child process before exiting
+  process.on('exit', function() {
+    process.kill();
+  });
+
   gulp.watch(['app/**/*.*'], spawnChildren);
   spawnChildren();
 });
 
 gulp.task('eslint', function () {
-  return gulp.src([config.dirs.srcJS + '/**/*.?(js|jsx)'])
+  return gulp.src([config.dirs.srcJS + '/**/*.js'])
     .pipe(eslint())
     .pipe(eslint.formatEach('stylish', process.stderr));
 });
