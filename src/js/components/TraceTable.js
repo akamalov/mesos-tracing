@@ -1,3 +1,4 @@
+var moment = require('moment');
 var React = require('react');
 
 var EventTypes = require('../constants/EventTypes');
@@ -12,20 +13,26 @@ export default React.createClass({
   },
 
   componentDidMount: function() {
-    RedisStore.on(EventTypes.TRACE_UPDATED, this.onTraceReceived);
+    RedisStore.on(EventTypes.TRACE_META_UPDATED, this.onTraceMetaUpdate);
   },
 
-  onTraceReceived: function() {
+  onTraceMetaUpdate: function() {
     this.setState({traceList: RedisStore.getTraces()});
   },
 
   getTableRows: function() {
     var list = this.state.traceList;
+    var traceIDs = Object.keys(list);
 
-    return list.map(function(traceID) {
+    return traceIDs.map(function(traceID) {
+      var trace = list[traceID];
+      var date = moment.unix(trace.timestamp).fromNow();
+
       return (
-        <tr>
-          <td>{traceID}</td>
+        <tr key={traceID}>
+          <td>{trace.traceID}</td>
+          <td>{date}</td>
+          <td>{trace.spanCount}</td>
         </tr>
       );
     });
@@ -34,7 +41,14 @@ export default React.createClass({
   render: function() {
 
     return (
-      <table>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Trace ID</th>
+            <th>Timestamp</th>
+            <th>Span count</th>
+          </tr>
+        </thead>
         <tbody>{this.getTableRows()}</tbody>
       </table>
     );

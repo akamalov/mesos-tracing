@@ -6,9 +6,12 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+var TraceUtil = require('./TraceUtil');
+
 const redis = require('redis');
-const redisClient = redis.createClient(6379, '192.168.50.10');
-redisClient.subscribe('traces.update');
+const redisSubscriberClient = redis.createClient(6379, '192.168.50.10');
+redisSubscriberClient.subscribe('traces.update');
+TraceUtil.setClient(redis.createClient(6379, '192.168.50.10'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,7 +24,16 @@ app.get('/', function(req, res) {
   res.sendfile('../dist/index.html');
 });
 
-redisClient.on('message', function(channel, traceID) {
+app.get('/trace-meta/:traceID', function(request, response) {
+  var traceID = request.params.traceID;
+
+  TraceUtil.getTraceMeta(traceID)
+    .then(function(meta) {
+      response.json(meta);
+    });
+});
+
+redisSubscriberClient.on('message', function(channel, traceID) {
   io.sockets.emit('traces.update', traceID);
 });
 

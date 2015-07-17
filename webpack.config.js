@@ -1,5 +1,6 @@
 var config = require('./configuration');
 
+console.log(config.files.distJS);
 module.exports = {
   entry: config.files.srcJS,
   output: {
@@ -8,7 +9,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.js$/,
-      loader: 'babel',
+      loader: 'babel-loader',
       exclude: /node_modules/
     }]
   },
