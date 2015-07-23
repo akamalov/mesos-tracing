@@ -31,7 +31,6 @@ export default React.createClass({
 
     this.state.graphStruct.loadData(trace);
     var json = this.state.graphStruct.getGraphData();
-    console.log(json);
 
     var graph = new Springy.Graph();
     graph.loadJSON(json);

@@ -14,8 +14,17 @@ export default React.createClass({
   },
 
   componentDidMount: function() {
-    // RedisStore.on(EventTypes.TRACE_META_UPDATED, this.onTraceMetaUpdate);
+    RedisStore.on(EventTypes.TRACE_META_UPDATED, this.onTraceMetaUpdate);
     RedisStore.on(EventTypes.TRACES_RECEIVED, this.onTraceMetaUpdate);
+  },
+
+  componentWillUnmount: function() {
+    RedisStore.removeListener(
+      EventTypes.TRACE_META_UPDATED, this.onTraceMetaUpdate
+    );
+    RedisStore.removeListener(
+      EventTypes.TRACES_RECEIVED, this.onTraceMetaUpdate
+    );
   },
 
   onTraceMetaUpdate: function() {
