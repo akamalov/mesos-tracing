@@ -17,7 +17,9 @@
 
   "globals": {
     "jest": true,
-    "io": true
+    "Springy": true,
+    "io": true,
+    "$": true
   },
 
   "rules": {

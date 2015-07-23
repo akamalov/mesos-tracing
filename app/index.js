@@ -24,12 +24,31 @@ app.get('/', function(req, res) {
   res.sendfile('../dist/index.html');
 });
 
+app.get('/traces/:count', function(request, response) {
+  var count = request.params.count;
+
+  TraceUtil.getLatestTraces(count)
+    .then(function(traces) {
+      response.json(traces);
+    });
+});
+
 app.get('/trace-meta/:traceID', function(request, response) {
   var traceID = request.params.traceID;
 
   TraceUtil.getTraceMeta(traceID)
     .then(function(meta) {
       response.json(meta);
+    });
+});
+
+app.get('/trace/:traceID', function(request, response) {
+  var traceID = request.params.traceID;
+
+  TraceUtil.getTraceMeta(traceID)
+    .then(TraceUtil.getTrace)
+    .then(function(trace) {
+      response.json(trace);
     });
 });
 

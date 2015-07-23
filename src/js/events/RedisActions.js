@@ -4,16 +4,30 @@ var AppDispatcher = require('./AppDispatcher');
 
 var RedisActions = {
 
+  requestTraces: function(n) {
+    qwest.get(`/traces/${n}`)
+      .then(function(traces) {
+        AppDispatcher.onTracesReceived(traces);
+      });
+  },
+
   listenForTraceUpdates: function(socket) {
     socket.on('traces.update', function(traceID) {
-      AppDispatcher.onTraceUpdate(traceID);
+      AppDispatcher.onNewTraces(traceID);
     });
   },
 
-  requestTraceData: function(traceID) {
+  requestTraceMeta: function(traceID) {
     qwest.get(`/trace-meta/${traceID}`)
       .then(function(meta) {
         AppDispatcher.onTraceMetaUpdate(meta);
+      });
+  },
+
+  requestFullTrace: function(traceID) {
+    qwest.get(`/trace/${traceID}`)
+      .then(function(trace) {
+        AppDispatcher.onTraceUpdate(trace);
       });
   }
 

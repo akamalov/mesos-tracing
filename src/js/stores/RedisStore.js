@@ -10,17 +10,33 @@ var traces = {};
 
 var RedisStore = _.extend({}, EventEmitter.prototype, {
 
-  onTraceReceived: function(traceID) {
+  onTracesReceived: function(newTraces) {
+    newTraces.forEach(function(trace) {
+      traces[trace.traceID] = trace;
+    });
+
+    this.emit(EventTypes.TRACES_RECEIVED);
+  },
+
+  getTraces: function() {
+    return traces;
+  },
+
+  requestTrace: function(traceID) {
+    if (!traces[traceID]) {
+      return;
+    }
+
+    RedisActions.requestFullTrace(traceID);
+  },
+
+  onNewTrace: function(traceID) {
     if (traceID in traces) {
       return;
     }
 
     traces[traceID] = {traceID};
-    RedisActions.requestTraceData(traceID);
-  },
-
-  getTraces: function() {
-    return traces;
+    RedisActions.requestTraceMeta(traceID);
   },
 
   onTraceMetaReceived: function(meta) {
@@ -28,13 +44,24 @@ var RedisStore = _.extend({}, EventEmitter.prototype, {
     this.emit(EventTypes.TRACE_META_UPDATED);
   },
 
+  onTraceReceived: function(trace) {
+    _.extend(traces[trace.traceID], trace);
+    this.emit(EventTypes.TRACE_UPDATED, trace);
+  },
+
   dispatcherIndex: AppDispatcher.register(function (payload) {
     switch (payload.type) {
-      case ActionTypes.REDIS_TRACE_RECEIVED:
-        RedisStore.onTraceReceived(payload.traceID);
+      case ActionTypes.REDIS_TRACES_RECEIVED:
+        RedisStore.onTracesReceived(payload.traces);
+        break;
+      case ActionTypes.REDIS_NEW_TRACE:
+        RedisStore.onNewTrace(payload.traceID);
         break;
       case ActionTypes.REDIS_TRACE_META_RECEIVED:
         RedisStore.onTraceMetaReceived(payload.meta);
+        break;
+      case ActionTypes.REDIS_TRACE_RECEIVED:
+        RedisStore.onTraceReceived(payload.trace);
         break;
     }
 

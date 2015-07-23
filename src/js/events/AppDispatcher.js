@@ -5,9 +5,16 @@ var ActionTypes = require('../constants/ActionTypes');
 
 var AppDispatcher = _.extend(new Dispatcher(), {
 
-  onTraceUpdate: function(traceID) {
+  onTracesReceived: function(traces) {
     this.dispatch({
-      type: ActionTypes.REDIS_TRACE_RECEIVED,
+      type: ActionTypes.REDIS_TRACES_RECEIVED,
+      traces
+    });
+  },
+
+  onNewTraces: function(traceID) {
+    this.dispatch({
+      type: ActionTypes.REDIS_NEW_TRACE,
       traceID
     });
   },
@@ -16,6 +23,13 @@ var AppDispatcher = _.extend(new Dispatcher(), {
     this.dispatch({
       type: ActionTypes.REDIS_TRACE_META_RECEIVED,
       meta
+    });
+  },
+
+  onTraceUpdate: function(trace) {
+    this.dispatch({
+      type: ActionTypes.REDIS_TRACE_RECEIVED,
+      trace
     });
   }
 
