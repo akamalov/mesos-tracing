@@ -25,6 +25,36 @@ var TraceUtil = {
     }.bind(this));
   },
 
+  getAllTraces: function() {
+    return new Promise(function(resolve, reject) {
+      this.client.hgetall('traces', function(err, allTraces) {
+        if (err) {
+          return reject(err);
+        }
+
+        var requestedTraces = Object.keys(allTraces);
+        var traces = [];
+        requestedTraces.forEach(function(traceID) {
+          traces.push({
+            traceID,
+            timestamp: allTraces[traceID] / 1000000000
+          });
+        });
+
+        traces.forEach(function(trace) {
+          this.getSpanCount(trace.traceID)
+            .then(function(count) {
+              trace.spanCount = count;
+              return Promise.resolve(trace);
+            })
+            .then(function() {
+              resolve(traces);
+            });
+        }, this);
+      });
+    }.bind(this));
+  },
+
   getLatestTraces: function(requestedCount) {
     return new Promise(function(resolve, reject) {
       this.client.hgetall('traces', function(err, allTraces) {

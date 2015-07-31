@@ -33,6 +33,13 @@ app.get('/traces/:count', function(request, response) {
     });
 });
 
+app.get('/traces', function(request, response) {
+  TraceUtil.getAllTraces()
+    .then(function(traces) {
+      response.json(traces);
+    });
+});
+
 app.get('/trace-meta/:traceID', function(request, response) {
   var traceID = request.params.traceID;
 
