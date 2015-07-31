@@ -9,9 +9,9 @@ var io = require('socket.io')(http);
 var TraceUtil = require('./TraceUtil');
 
 const redis = require('redis');
-const redisSubscriberClient = redis.createClient(6379, '192.168.50.10');
+const redisSubscriberClient = redis.createClient(6379, '0.0.0.0');
 redisSubscriberClient.subscribe('traces.update');
-TraceUtil.setClient(redis.createClient(6379, '192.168.50.10'));
+TraceUtil.setClient(redis.createClient(6379, '0.0.0.0'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
