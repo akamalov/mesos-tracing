@@ -28,11 +28,11 @@ while 1:
   if not line: break
   trace = Trace(line)
   if not r.hexists('traces', trace.id):
-    r.hset('traces', trace.id, trace.time_nanos)
+    r.hset('traces', trace.id, trace.timestamp)
   else:
     time = r.hget('traces', trace.id)
-    if time > trace.time_nanos:
-      r.hset('traces', trace.id, trace.time_nanos)
+    if time > trace.timestamp:
+      r.hset('traces', trace.id, trace.timestamp)
 
   i = r.incr(trace.id + "-count")
 
