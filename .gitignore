@@ -1,3 +1,4 @@
 .DS_Store
+app/configuration.template.js
 dist/
 node_modules/

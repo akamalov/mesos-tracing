@@ -1,5 +1,6 @@
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
+var colorLighten = require("less-color-lighten");
 var eslint = require('gulp-eslint');
 var gulp = require('gulp');
 var gulpif = require('gulp-if');
@@ -87,7 +88,8 @@ gulp.task('less', function () {
   return gulp.src(config.files.srcCSS)
     .pipe(gulpif(development, sourcemaps.init()))
     .pipe(less({
-      paths: [config.dirs.cssSrc] // @import paths
+      paths: [config.dirs.cssSrc], // @import paths
+      plugins: [colorLighten]
     }))
     .pipe(autoprefixer())
     .pipe(gulpif(development, sourcemaps.write()))

@@ -2,10 +2,23 @@
 This repository is a web server / visualization that visualizes traces in Mesos.
 This is built upon the traces work done here http://github.com/tnachen/mesos/tree/libprocess_trace
 
-###To start mesos with trace enabled
+## Running Mesos
+
+**Mesos must be started with trace enabled**
+
 Grab the source tree and build mesos, then start mesos-master and mesos-slave with LIBPROCESS_TRACE_ENABLED=1 env variable.
 
-###To ingest local data into redis:
+## Log parsing
+
+Once mesos is started with Trace Enabled it will begin logging the traces to a file. Use the `populate_trace_db.py` python script to read the log and write the traces to Redis.
+
+**Start redis** in the following manner:
+
+```
+$ redis-server --notify-keyspace-events KE
+```
+
+**Start the log parser**
 
 This assumes all the tracing data is installed into a local redis instance.
 
@@ -13,14 +26,18 @@ This assumes all the tracing data is installed into a local redis instance.
 $ tail -f -c +1 <path> | python -u populate_trace_db.py
 ```
 
-###Install
+## Run the UI
 
-npm install
+### Install
 
-###To start services
+`$ npm install`
 
-Start the redis server (default localhost on port 6379)
+### Configure
 
-npm run serve
+Copy the configuration file in `app/configuration.template.js` to `app/configuration.js`. And edit this file to match the host and port to Redis.
 
-Access traces at `http://<ip>:<port>`
+### To start services
+
+`$ npm run serve`
+
+Access the UI at `http://localhost:4200`
