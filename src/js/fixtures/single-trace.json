@@ -1,0 +1,97 @@
+{
+  "traceID": "42718318-80bd-4875-8136-8a9a8c87a70b",
+  "timestamp": 1437609892.45769,
+  "spanCount": "10",
+  "spans": [
+    {
+      "name": "mesos.scheduler.Call",
+      "span_id": "b3faeee3-ae3e-49d2-ab75-46cc56954761",
+      "span_parent_id": "",
+      "from_upid": "scheduler-867cc09f-00e7-4e06-98e2-ce1c8f9c2eaf@10.0.2.15:33098",
+      "to_upid": "master@10.0.2.15:5050",
+      "time_nanos": "1437609892420914944",
+      "stage": "message_inbound_queued\r\n"
+    },
+    {
+      "name": "mesos.internal.ShutdownFrameworkMessage",
+      "span_id": "b3faeee3-ae3e-49d2-ab75-46cc56954761",
+      "span_parent_id": "",
+      "from_upid": "master@10.0.2.15:5050",
+      "to_upid": "slave(1)@10.0.2.15:5051",
+      "time_nanos": "1437609892432368128",
+      "stage": "message_outbound_queued\r\n"
+    },
+    {
+      "name": "mesos.internal.ShutdownFrameworkMessage",
+      "span_id": "82c6e68a-8ad5-4dc9-809c-4d63c044716f",
+      "span_parent_id": "b3faeee3-ae3e-49d2-ab75-46cc56954761",
+      "from_upid": "master@10.0.2.15:5050",
+      "to_upid": "slave(1)@10.0.2.15:5051",
+      "time_nanos": "1437609892451150848",
+      "stage": "message_inbound_queued\r\n"
+    },
+    {
+      "name": "mesos.internal.ShutdownExecutorMessage",
+      "span_id": "82c6e68a-8ad5-4dc9-809c-4d63c044716f",
+      "span_parent_id": "b3faeee3-ae3e-49d2-ab75-46cc56954761",
+      "from_upid": "slave(1)@10.0.2.15:5051",
+      "to_upid": "executor(1)@10.0.2.15:60453",
+      "time_nanos": "1437609892453262080",
+      "stage": "message_outbound_queued\r\n"
+    },
+    {
+      "name": "mesos.internal.ShutdownExecutorMessage",
+      "span_id": "c0bacf03-cf47-4235-a868-c41d99658c23",
+      "span_parent_id": "82c6e68a-8ad5-4dc9-809c-4d63c044716f",
+      "from_upid": "slave(1)@10.0.2.15:5051",
+      "to_upid": "executor(1)@10.0.2.15:60453",
+      "time_nanos": "1437609892457690112",
+      "stage": "message_inbound_queued\r\n"
+    },
+    {
+      "name": "mesos.scheduler.Call",
+      "span_id": "b3faeee3-ae3e-49d2-ab75-46cc56954761",
+      "span_parent_id": "",
+      "from_upid": "scheduler-867cc09f-00e7-4e06-98e2-ce1c8f9c2eaf@10.0.2.15:33098",
+      "to_upid": "master@10.0.2.15:5050",
+      "time_nanos": "1437609892420914944",
+      "stage": "message_inbound_queued\r\n"
+    },
+    {
+      "name": "mesos.internal.ShutdownFrameworkMessage",
+      "span_id": "b3faeee3-ae3e-49d2-ab75-46cc56954761",
+      "span_parent_id": "",
+      "from_upid": "master@10.0.2.15:5050",
+      "to_upid": "slave(1)@10.0.2.15:5051",
+      "time_nanos": "1437609892432368128",
+      "stage": "message_outbound_queued\r\n"
+    },
+    {
+      "name": "mesos.internal.ShutdownFrameworkMessage",
+      "span_id": "82c6e68a-8ad5-4dc9-809c-4d63c044716f",
+      "span_parent_id": "b3faeee3-ae3e-49d2-ab75-46cc56954761",
+      "from_upid": "master@10.0.2.15:5050",
+      "to_upid": "slave(1)@10.0.2.15:5051",
+      "time_nanos": "1437609892451150848",
+      "stage": "message_inbound_queued\r\n"
+    },
+    {
+      "name": "mesos.internal.ShutdownExecutorMessage",
+      "span_id": "82c6e68a-8ad5-4dc9-809c-4d63c044716f",
+      "span_parent_id": "b3faeee3-ae3e-49d2-ab75-46cc56954761",
+      "from_upid": "slave(1)@10.0.2.15:5051",
+      "to_upid": "executor(1)@10.0.2.15:60453",
+      "time_nanos": "1437609892453262080",
+      "stage": "message_outbound_queued\r\n"
+    },
+    {
+      "name": "mesos.internal.ShutdownExecutorMessage",
+      "span_id": "c0bacf03-cf47-4235-a868-c41d99658c23",
+      "span_parent_id": "82c6e68a-8ad5-4dc9-809c-4d63c044716f",
+      "from_upid": "slave(1)@10.0.2.15:5051",
+      "to_upid": "executor(1)@10.0.2.15:60453",
+      "time_nanos": "1437609892457690112",
+      "stage": "message_inbound_queued\r\n"
+    }
+  ]
+}
