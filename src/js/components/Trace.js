@@ -41,7 +41,7 @@ export default React.createClass({
     });
 
     this.state.graphStruct.getGraphEdges().forEach(function (edge) {
-      graph.newEdge(nodes[edge[0]], nodes[edge[1]]);
+      graph.newEdge(nodes[edge[0]], nodes[edge[1]], edge[2]);
     });
 
     $(this.refs.canvas.getDOMNode()).springy({graph});

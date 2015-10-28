@@ -20,10 +20,28 @@ export default class GraphStruct {
 
   getGraphEdges() {
     var edges = [];
+    var potentialEdges = {};
+
+    // Create edges
     this.trace.spans.forEach(function(span) {
-      if (span.span_parent != 0) {
-        edges.push([span.span_parent, span.span_id]);
+      if (span.span_parent == 0) {
+        return;
       }
+
+      var edgeID = `${span.span_parent}-${span.span_id}`;
+      if (!potentialEdges[edgeID]) {
+        potentialEdges[edgeID] = [span.span_parent, span.span_id];
+        return;
+      }
+
+      edges.push([span.span_parent, span.span_id]);
+      delete potentialEdges[edgeID];
+    });
+
+    // For edges that don't have an inbound/outbound then show them broken
+    Object.keys(potentialEdges).forEach(function (edgeID) {
+      var edge = potentialEdges[edgeID];
+      edges.push([edge[0], edge[1], {color: '#DB323E'}]);
     });
 
     return edges;
