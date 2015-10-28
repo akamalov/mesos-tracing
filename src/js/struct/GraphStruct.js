@@ -15,8 +15,8 @@ export default class GraphStruct {
       nodesHash[span.span_id] = true;
 
       // The first span won't have a parent
-      if (span.span_parent_id) {
-        struct.edges.push([span.span_parent_id, span.span_id]);
+      if (span.span_parent != 0) {
+        struct.edges.push([span.span_parent, span.span_id]);
       }
     });
 

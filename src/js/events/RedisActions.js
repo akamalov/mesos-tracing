@@ -5,7 +5,7 @@ var AppDispatcher = require('./AppDispatcher');
 var tableData = require('json!../fixtures/table-data.json');
 var singleTrace = require('json!../fixtures/single-trace.json');
 
-var useFixtures = true;
+var useFixtures = false;
 
 var RedisActions = {
 
