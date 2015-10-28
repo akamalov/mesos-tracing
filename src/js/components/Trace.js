@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var React = require('react');
 
 var EventTypes = require('../constants/EventTypes');
@@ -33,7 +34,15 @@ export default React.createClass({
     var json = this.state.graphStruct.getGraphData();
 
     var graph = new Springy.Graph();
-    graph.loadJSON(json);
+    // graph.loadJSON(json);
+    var nodes = this.state.graphStruct.getGraphNodes();
+    _.values(nodes).forEach(function (node) {
+      graph.addNode(node);
+    });
+
+    this.state.graphStruct.getGraphEdges().forEach(function (edge) {
+      graph.newEdge(nodes[edge[0]], nodes[edge[1]]);
+    });
 
     $(this.refs.canvas.getDOMNode()).springy({graph});
   },
