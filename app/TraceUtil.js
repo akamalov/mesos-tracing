@@ -29,15 +29,18 @@ var TraceUtil = {
     return new Promise(function(resolve, reject) {
       this.client.hgetall('traces', function(err, allTraces) {
         if (err) {
+          console.log('Redis hgetall traces failed: ' + err);
           return reject(err);
         }
 
         var requestedTraces = Object.keys(allTraces);
-        requestedTraces = requestedTraces.slice(
-          Math.max(requestedTraces.length - requestedCount, 1)
-        );
+        requestedCount = Math.min(requestedTraces.length, requestedCount);
+        if (requestedCount < requestedTraces.length) {
+          requestedTraces = requestedTraces.slice(requestedTraces.length - requestedCount);
+        }
 
         var traces = [];
+
         requestedTraces.forEach(function(traceID) {
           traces.push({
             traceID,
@@ -70,6 +73,7 @@ var TraceUtil = {
     return new Promise(function(resolve, reject) {
       this.client.get(`${traceID}-count`, function(err, count) {
         if (err) {
+           console.log('Redis get ' + traceID + '-count failed: ' + err);
           return reject(err);
         }
 
@@ -97,6 +101,7 @@ var TraceUtil = {
     return new Promise(function(resolve, reject) {
       this.client.hgetall(spanID, function(err, span) {
         if (err) {
+          console.log('Redis get ' + spanID + ' failed: ' + err);
           return reject(err);
         }
 

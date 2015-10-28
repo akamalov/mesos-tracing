@@ -11,7 +11,7 @@ var RedisActions = require('./events/RedisActions');
 
 var socket = io();
 RedisActions.listenForTraceUpdates(socket);
-RedisActions.requestTraces(50);
+RedisActions.requestTraces(300);
 
 var routes = (
   <Route handler={IndexPage}>
